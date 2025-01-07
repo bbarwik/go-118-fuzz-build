@@ -1,5 +1,11 @@
 # Go-118-fuzz-build
 
+> **Note**: This is a fork of [AdamKorcz/go-118-fuzz-build](https://github.com/AdamKorcz/go-118-fuzz-build) with the following improvements:
+> - Added new `-trim` flag to control path trimming (disabled by default)
+> - Fixed cleanup of temporary files by using `os.Remove` instead of `os.Rename`
+> - Removed redundant test file renaming logic
+> - Improved error handling in build process
+
 ![What can you do](https://adalogics.com/static/img/content/go-118-fuzz-build-compressed.gif)
 
 Go-118-fuzz-build is a tool to compile native Golang fuzzers to libFuzzer fuzzers. The tool was initially developed because continuous and CI fuzzing providers have developed platforms that depend on features in fuzzing engines that the native Go engine was not released with. To accomodate this, Go-118-fuzz-build changes the fuzz harnesses into libFuzzer harnesses that can then be intrumented with libFuzzer.

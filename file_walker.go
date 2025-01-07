@@ -64,27 +64,11 @@ func NewFileWalker() *FileWalker {
 }
 
 func (walker *FileWalker) cleanUp() {
-	for oldName, renamedTestFile := range walker.renamedTestFiles {
-		err := os.Rename(renamedTestFile, oldName)
+	for _, renamedTestFile := range walker.renamedTestFiles {
+		err := os.Remove(renamedTestFile)
 		if err != nil {
 			panic(err)
 		}
-	}
-	// Remove the visible fuzzer path
-	//if walker.sanitizer == "coverage" {
-	os.Remove(strings.TrimSuffix(walker.fuzzerPath, "_test.go") + "_libFuzzer.go")
-	//}
-	/*for _, renamedTestFile := range walker.renamedTestFiles {
-		fmt.Println("Cleaning up1... ", renamedTestFile)
-		newName := strings.TrimSuffix(renamedTestFile, "_libFuzzer.go") + "_test.go"
-		err := os.Rename(renamedTestFile, oldName)
-		if err != nil {
-			panic(err)
-		}
-	}*/
-	err := os.RemoveAll(walker.tmpDir)
-	if err != nil {
-		panic(err)
 	}
 }
 
@@ -110,7 +94,7 @@ func (walker *FileWalker) ignorePath(path string) bool {
 	return false
 }
 
-func (walker *FileWalker) createRewrittenHarness(path string, fset1 *token.FileSet, parsedFile *ast.File) error {
+func (walker *FileWalker) createRewrittenHarness(path string, fset1 *token.FileSet, file1 *ast.File) error {
 	originalFuzzerContents, err := os.ReadFile(path)
 	if err != nil {
 		return err
@@ -132,7 +116,7 @@ func (walker *FileWalker) createRewrittenHarness(path string, fset1 *token.FileS
 		return err
 	}
 	var buf bytes.Buffer
-	printer.Fprint(&buf, fset1, parsedFile)
+	printer.Fprint(&buf, fset1, file1)
 
 	_, err = fff.Write(buf.Bytes())
 	if err != nil {
@@ -143,10 +127,6 @@ func (walker *FileWalker) createRewrittenHarness(path string, fset1 *token.FileS
 	}
 
 	walker.renamedTestFiles[walker.fuzzerPath] = originalFuzzerFileCopy.Name()
-	err = os.Remove(path)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 

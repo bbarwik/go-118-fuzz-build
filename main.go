@@ -35,6 +35,7 @@ var (
 	flagWork    = flag.Bool("work", false, "print the name of the temporary work directory and do not remove it when exiting")
 	flagX       = flag.Bool("x", false, "print the commands")
 	flagOverlay = flag.String("overlay", "", "JSON config file that provides an overlay for build operations")
+	flagTrim    = flag.Bool("trim", false, "trim the path")
 
 	flagInclude  = flag.String("include", "*", "a comma-separated list of import paths to instrument")
 	flagPreserve = flag.String("preserve", "", "a comma-separated list of import paths not to instrument")
@@ -65,7 +66,10 @@ func main() {
 	buildFlags := []string{
 		"-buildmode", "c-archive",
 		"-tags", tags,
-		"-trimpath",
+	}
+
+	if *flagTrim {
+		buildFlags = append(buildFlags, "-trimpath")
 	}
 
 	if *flagRace {
@@ -191,7 +195,6 @@ func main() {
 		cmd.Stderr = os.Stderr
 
 		if err := cmd.Run(); err != nil {
-			panic(err)
 			log.Fatal("failed to build packages:", err)
 		}
 	} else {
