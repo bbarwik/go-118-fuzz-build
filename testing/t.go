@@ -21,7 +21,7 @@ func NewT() *T {
 }
 
 func unsupportedApi(name string) string {
-	plsOpenIss := "Please open an issue https://github.com/AdamKorcz/go-118-fuzz-build if you need this feature."
+	plsOpenIss := "Please open an issue https://github.com/bbarwik/go-118-fuzz-build if you need this feature."
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf("%s is not supported when fuzzing in libFuzzer mode\n.", name))
 	b.WriteString(plsOpenIss)

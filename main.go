@@ -254,7 +254,7 @@ import (
 	"strings"
 	"unsafe"
 	target {{printf "%q" .PkgPath}}
-	"github.com/AdamKorcz/go-118-fuzz-build/testing"
+	"github.com/bbarwik/go-118-fuzz-build/testing"
 )
 
 // #include <stdint.h>
@@ -311,7 +311,7 @@ import (
 	"runtime/pprof"
 	"strings"
 	"testing"
-	customTesting "github.com/AdamKorcz/go-118-fuzz-build/testing"
+	customTesting "github.com/bbarwik/go-118-fuzz-build/testing"
 )
 
 func TestFuzzCorpus(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
-	"github.com/AdamKorcz/go-118-fuzz-build/input"
+	"github.com/bbarwik/go-118-fuzz-build/input"
 )
 
 type F struct {

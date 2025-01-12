@@ -15,7 +15,7 @@ import (
 	"golang.org/x/tools/go/ast/astutil"
 	"golang.org/x/tools/go/packages"
 
-	"github.com/AdamKorcz/go-118-fuzz-build/utils"
+	"github.com/bbarwik/go-118-fuzz-build/utils"
 )
 
 var (
@@ -169,7 +169,7 @@ func (walker *FileWalker) RewriteFile(path, fuzzFuncName string) {
 			astutil.DeleteImport(fset1, parsedFile, "testing")
 			astutil.AddImport(fset1,
 				parsedFile,
-				"github.com/AdamKorcz/go-118-fuzz-build/testing")
+				"github.com/bbarwik/go-118-fuzz-build/testing")
 			rewroteFile = true
 		}
 	}
@@ -254,6 +254,9 @@ func (walker *FileWalker) addShimImport(path string, hasTestingT bool) error {
 	// First check if the import already exists
 	// Return if it does.
 	for _, imp := range fCheck.Imports {
+		if imp.Path.Value == "github.com/bbarwik/go-118-fuzz-build/testing" {
+			return nil
+		}
 		if imp.Path.Value == "github.com/AdamKorcz/go-118-fuzz-build/testing" {
 			return nil
 		}
@@ -262,7 +265,7 @@ func (walker *FileWalker) addShimImport(path string, hasTestingT bool) error {
 	astutil.AddImport(fset,
 		fCheck,
 		//customTestingName,
-		"github.com/AdamKorcz/go-118-fuzz-build/testing")
+		"github.com/bbarwik/go-118-fuzz-build/testing")
 	var buf bytes.Buffer
 	printer.Fprint(&buf, fset, fCheck)
 
