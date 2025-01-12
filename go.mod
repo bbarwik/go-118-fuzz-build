@@ -1,4 +1,4 @@
-module github.com/AdamKorcz/go-118-fuzz-build
+module github.com/bbarwik/go-118-fuzz-build
 
 go 1.22.9
 
