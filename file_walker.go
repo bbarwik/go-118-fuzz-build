@@ -222,7 +222,7 @@ func (walker *FileWalker) RewriteFile(path, fuzzFuncName string) {
 			walker.overlayMap.Replace[keyName] = f.Name()
 		}
 	}
-
+	/*
 	if path[len(path)-8:] == "_test.go" {
 		// We should not substitute the fuzzer in an overlay map.
 		// It creates problems in the coverage build.
@@ -241,6 +241,7 @@ func (walker *FileWalker) RewriteFile(path, fuzzFuncName string) {
 		// Store the new name
 		walker.renamedTestFiles[path] = newName
 	}
+	*/
 }
 
 // Rewrites testing import of a single path
