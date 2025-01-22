@@ -124,7 +124,10 @@ func (s *Source) FillAndCall(ff any, arg0 reflect.Value) (ok bool) {
 	// 1. Read N bytes [b1, b2, b3 .. bn] .
 	// 2. Let the relative weights of b determine how much of the
 	//    remaining input that field n gets
-	weights := s.getBytes(len(dynamic))
+	weights := []byte{1}
+	if len(dynamic) > 1 {
+		weights = s.getBytes(len(dynamic))
+	}
 	sum := 0
 	for _, v := range weights {
 		sum += int(v)
